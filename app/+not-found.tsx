@@ -1,32 +1,29 @@
-import { Link, Stack } from 'expo-router';
-import { StyleSheet } from 'react-native';
-
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+import { Link, Stack } from 'expo-router'
+import { useColorScheme } from 'react-native'
+import { TamaguiProvider, Theme, Text, YStack, Button } from 'tamagui'
+import config from '@/tamagui.config'
 
 export default function NotFoundScreen() {
-  return (
-    <>
-      <Stack.Screen options={{ title: 'Oops!' }} />
-      <ThemedView style={styles.container}>
-        <ThemedText type="title">This screen does not exist.</ThemedText>
-        <Link href="/" style={styles.link}>
-          <ThemedText type="link">Go to home screen!</ThemedText>
-        </Link>
-      </ThemedView>
-    </>
-  );
-}
+  const theme = useColorScheme() ?? 'light'
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
-  },
-  link: {
-    marginTop: 15,
-    paddingVertical: 15,
-  },
-});
+  return (
+    <TamaguiProvider config={config}>
+      <Theme name={theme}>
+        <Stack.Screen options={{ title: 'Not Found' }} />
+        <YStack f={1} jc="center" ai="center" px="$4" space="$4" bg="$background">
+          <Text fontSize={48} fontWeight="bold" color="$color">
+            404
+          </Text>
+          <Text fontSize={20} textAlign="center" color="$color">
+            Halaman yang kamu cari tidak ditemukan.
+          </Text>
+          <Link href="/(tabs)" asChild>
+            <Button theme="active" size="$4" mt="$3">
+              Kembali ke Beranda
+            </Button>
+          </Link>
+        </YStack>
+      </Theme>
+    </TamaguiProvider>
+  )
+}
